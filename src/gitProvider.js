@@ -41,6 +41,12 @@ class Bitbucket extends BaseProvider {
     }
 }
 
+class BitBucketServer extends BaseProvider {
+    webUrl(branch, filePath, line) {
+        return `${this.baseUrl}/browse/${branch}` + (filePath ? `${filePath}` : '') + (line ? `#cl-${line}` : '');
+    }
+}
+
 class GitLab extends GitHub {
 }
 
@@ -64,9 +70,11 @@ class VisualStudio extends BaseProvider {
 }
 
 const gitHubDomain = workspace.getConfiguration('openInGitHub').get('gitHubDomain', 'github.com');
+const bitBucketDomain = workspace.getConfiguration('openInGitHub').get('bitBucketDomain', 'bitbucket.example.com');
 
 const providers = {
     [gitHubDomain]: GitHub,
+    [bitBucketDomain]: BitBucketServer,
     'bitbucket.org': Bitbucket,
     'gitlab.com': GitLab,
     'visualstudio.com': VisualStudio,
